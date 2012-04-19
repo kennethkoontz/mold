@@ -1,7 +1,11 @@
 var path = require('path'),
+    qs = require('querystring');
     fs = require('fs');
 
-function client(res) {
+function postBody(request) {
+}
+
+function client(response, request) {
     console.log("Request handler 'client' was called.");
     var filePath = './views/index.html';
     path.exists(filePath, function(exists) {
@@ -9,21 +13,21 @@ function client(res) {
             console.log('Opening file: ' + filePath);
             fs.readFile(filePath, function (err, content) {
                 if (!err) {
-                    res.writeHead(200, {"Content-Type": "text/html"});
-                    res.write(content, 'utf-8');
-                    res.end();
+                    response.writeHead(200, {"Content-Type": "text/html"});
+                    response.write(content, 'utf-8');
+                    response.end();
                 } else {
-                    res.writeHead(500);
-                    res.write('500', 'utf-8');
-                    res.end();
+                    response.writeHead(500);
+                    response.write('500', 'utf-8');
+                    response.end();
                     throw err;
                 }
             });
         } else {
             console.log("File doesn't exist: " + filePath);
-            res.writeHead(404);
-            res.write('404', 'utf-8');
-            res.end();
+            response.writeHead(404);
+            response.write('404', 'utf-8');
+            response.end();
         }
     });
 }
@@ -31,12 +35,51 @@ function client(res) {
 function staticResource(response, resource) {
     // If resource exists load resource, if resource doesn't exist return 404.
     console.log("Request handler for static file called: " + resource);
-    response.writeHead(200, {"Content-Type": "application/javascript"});
-    response.write('javascript');
-    response.end();
+    var filePath = './static/' + resource;
+    path.exists(filePath, function(exists) {
+        if (exists) {
+            console.log('Opening file: ' + filePath);
+            fs.readFile(filePath, function (err, content) {
+                if (!err) {
+                    response.writeHead(200, {"Content-Type": "text/javascript"});
+                    response.write(content, 'utf-8');
+                    response.end();
+                } else {
+                    response.writeHead(500);
+                    response.write('500', 'utf-8');
+                    response.end();
+                    throw err;
+                }
+            });
+        } else {
+            console.log("File doesn't exist: " + filePath);
+            response.writeHead(404);
+            response.write('404', 'utf-8');
+            response.end();
+        }
+    });
 }
 
-function noRoute(response) {
+function testcaseAdd(response, request) {
+    console.log("Incoming POST data");
+    if (request.method == 'POST') {
+        var body = '';
+        request.on('data', function(data) {
+            body += data;
+        });
+        request.on('end', function() {
+            response.writeHead(200, {"Access-Control-Allow-Origin": "*"});
+            response.write(JSON.stringify(qs.parse(body)));
+            response.end();
+        });
+    } else {
+        response.writeHead(405);
+        response.write('405', 'utf-8');
+        response.end();
+    }
+}
+
+function noRoute(response, request) {
     response.writeHead(404, {"Content-Type": "application/javascript"});
     response.write('404');
     response.end();
@@ -45,3 +88,4 @@ function noRoute(response) {
 exports.noRoute = noRoute;
 exports.client = client;
 exports.staticResource = staticResource;
+exports.testcaseAdd = testcaseAdd;

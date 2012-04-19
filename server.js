@@ -6,7 +6,7 @@ function start(route, handle, port) {
     function onRequest(request, response) {
         var pathname = url.parse(request.url).pathname
         console.log('Request made for: ' + pathname);
-        route(handle, pathname, response);
+        route(handle, pathname, response, request);
     }
 
     http.createServer(onRequest).listen(port);
