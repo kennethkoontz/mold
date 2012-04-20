@@ -1,13 +1,3 @@
-var server = require('./server'),
-    router = require('./router'),
-    requestHandler = require('./requestHandler');
+var server = require('./server');
 
-var handle = {
-    "/": requestHandler.client,
-    "/client": requestHandler.client,
-    "/static": requestHandler.staticResource,
-    "/testcase/add": requestHandler.testcaseAdd,
-    "noroute": requestHandler.noRoute
-};
-
-server.start(router.route, handle, 3000);
+server.start(3000);
