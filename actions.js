@@ -1,11 +1,11 @@
-// TODO Use this module by requestHandler so that we can separate some code.
 var path = require('path'),
     qs = require('querystring'),
     fs = require('fs');
 
-function Action(request, response) {
+function Action(request, response, postData) {
     this.request = request;
     this.response = response;
+    this.postData = postData;
 }
 
 Action.prototype.json = function () {

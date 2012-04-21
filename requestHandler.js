@@ -1,8 +1,3 @@
-var path = require('path'),
-    fs = require('fs'),
-    qs = require('querystring');
-
-
 function client() {
     this.render('./views/client.html');
 }
@@ -19,21 +14,7 @@ function staticResource(resource) {
 }
 
 function testcaseAdd() {
-    if (this.request.method == 'POST') {
-        var body = '';
-        this.request.on('data', function(data) {
-            body += data;
-        });
-        this.request.on('end', function() {
-            this.response.writeHead(200, {"Access-Control-Allow-Origin": "*"});
-            this.response.write(JSON.stringify(qs.parse(body)));
-            this.response.end();
-        });
-    } else {
-        this.response.writeHead(405);
-        this.response.write('405', 'utf-8');
-        this.response.end();
-    }
+    this.response.end();
 }
 
 function noRoute(response, request) {

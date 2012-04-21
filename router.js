@@ -17,14 +17,13 @@ function leafPath(path) {
  * Else if incoming request is for an action. Route to action.
  * Else log to console that there is no route.
  */
-function route(handle, pathname, response, request) {
+function route(handle, pathname, request, response, postData) {
     var resource = leafPath(pathname);
-    
     if (pathname.match('.js|.css')) {
         // pathname contains a js or css extension
         handle['/static'].call(new Actions.Action(request, response), resource);
     } else if (typeof handle[pathname] === 'function' && pathname !== '/static') {
-        handle[pathname].call(new Actions.Action(request, response));
+        handle[pathname].call(new Actions.Action(request, response, postData));
     } else {
         handle['noroute'](response);
     }
