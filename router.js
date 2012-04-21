@@ -1,3 +1,5 @@
+var Actions = require('./actions');
+
 /* Return a string representation that is the leaf of a path.
  *
  * @params
@@ -17,11 +19,12 @@ function leafPath(path) {
  */
 function route(handle, pathname, response, request) {
     var resource = leafPath(pathname);
+    
     if (pathname.match('.js|.css')) {
         // pathname contains a js or css extension
-        handle['/static'](request, response, resource);
+        handle['/static'].call(new Actions.Action(request, response), resource);
     } else if (typeof handle[pathname] === 'function' && pathname !== '/static') {
-        handle[pathname](request, response);
+        handle[pathname].call(new Actions.Action(request, response));
     } else {
         handle['noroute'](response);
     }

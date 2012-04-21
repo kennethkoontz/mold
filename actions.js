@@ -1,17 +1,18 @@
 // TODO Use this module by requestHandler so that we can separate some code.
-var fs = require('fs');
+var path = require('path'),
+    qs = require('querystring'),
+    fs = require('fs');
 
-function Render(request, response) {
+function Action(request, response) {
     this.request = request;
     this.response = response;
 }
 
-Render.prototype.json = function () {
-    var req = this.request,
-        res = this.response;
+Action.prototype.json = function () {
+    console.log('in json');
 }
 
-Render.prototype.view = function (filePath) {
+Action.prototype.render = function (filePath) {
     var req = this.request,
         res = this.response,
         ext = filePath.match('.html|.js|.css')[0],
@@ -26,7 +27,6 @@ Render.prototype.view = function (filePath) {
             fs.readFile(filePath, function(err, content) {
                 if (!err) {
                     var ext = filePath.match('.html|.js|.css')[0];
-                    console.log(ext);
                     res.writeHead(200, {"Content-Type": "text/" + fileTypes[ext]});
                     res.write(content, 'utf-8');
                     res.end();
@@ -38,7 +38,6 @@ Render.prototype.view = function (filePath) {
                 }
             });
         } else {
-            console.log("File doesn't exist: " + filePath);
             res.writeHead(404);
             res.write('404', 'utf-8');
             res.end();
@@ -46,4 +45,4 @@ Render.prototype.view = function (filePath) {
     });
 }
 
-exports.Render = Render;
+exports.Action = Action;
