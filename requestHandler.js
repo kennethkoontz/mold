@@ -14,7 +14,11 @@ function staticResource(resource) {
 }
 
 function testcaseAdd() {
-    this.json(this.postData);
+    if (this.request.method === 'POST') {
+        this.json(this.postData);
+    } else {
+        this.statusCode(405);
+    }
 }
 
 function noRoute(response, request) {

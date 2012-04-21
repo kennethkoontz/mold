@@ -17,9 +17,7 @@ if (typeof jQuery === 'undefined') {
         $("#litmusTestSubmit").click(function () {
             var steps = $('textarea[name*="steps"]').val();
             var expectedResults = $('textarea[name*="results"]').val();
-            $.post("http://localhost:3000/testcase/add", {steps: steps, expectedResults: expectedResults}, function (data) {
-                console.log(data);
-            });
+            $.post("http://localhost:3000/testcase/add", {steps: steps, expectedResults: expectedResults});
         });
     }
 } else {
@@ -35,8 +33,6 @@ if (typeof jQuery === 'undefined') {
     $("#litmusTestSubmit").click(function () {
         var steps = $('textarea[name*="steps"]').val();
         var expectedResults = $('textarea[name*="results"]').val();
-        $.post("http://localhost:3000/testcase/add", {steps: steps, expectedResults: expectedResults}, function (data) {
-            console.log(data);
-        });
+        $.post("http://localhost:3000/testcase/add", {steps: steps, expectedResults: expectedResults});
     });
 }

@@ -14,6 +14,12 @@ Action.prototype.json = function (json) {
     this.response.end();
 }
 
+Action.prototype.statusCode = function (code) {
+    this.response.writeHead(code);
+    this.response.write(code.toString());
+    this.response.end();
+}
+
 Action.prototype.render = function (filePath) {
     var req = this.request,
         res = this.response,
