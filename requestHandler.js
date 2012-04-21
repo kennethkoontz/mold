@@ -21,13 +21,6 @@ function testcaseAdd() {
     }
 }
 
-function noRoute(response, request) {
-    response.writeHead(404, {"Content-Type": "application/javascript"});
-    response.write('404');
-    response.end();
-}
-
-exports.noRoute = noRoute;
 exports.index = index;
 exports.client = client;
 exports.staticResource = staticResource;
