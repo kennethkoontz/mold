@@ -14,7 +14,7 @@ function staticResource(resource) {
 }
 
 function testcaseAdd() {
-    this.response.end();
+    this.json(this.postData);
 }
 
 function noRoute(response, request) {

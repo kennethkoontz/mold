@@ -8,8 +8,10 @@ function Action(request, response, postData) {
     this.postData = postData;
 }
 
-Action.prototype.json = function () {
-    console.log('in json');
+Action.prototype.json = function (json) {
+    this.response.writeHead(200, {"Content-Type": "application/json"});
+    this.response.write(JSON.stringify(json));
+    this.response.end();
 }
 
 Action.prototype.render = function (filePath) {
