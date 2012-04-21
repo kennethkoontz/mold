@@ -1,4 +1,12 @@
-var Actions = require('./actions');
+var Actions = require('./actions'),
+    requestHandler = require('./requestHandler'),
+    handle = {
+        "/": requestHandler.index,
+        "/client": requestHandler.client,
+        "/static": requestHandler.staticResource,
+        "/testcase/add": requestHandler.testcaseAdd,
+        "noroute": requestHandler.noRoute
+    };
 
 /* Return a string representation that is the leaf of a path.
  *
@@ -17,7 +25,7 @@ function leafPath(path) {
  * Else if incoming request is for an action. Route to action.
  * Else log to console that there is no route.
  */
-function route(handle, pathname, request, response, postData) {
+function route(pathname, request, response, postData) {
     var resource = leafPath(pathname);
     if (pathname.match('.js|.css')) {
         // pathname contains a js or css extension

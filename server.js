@@ -1,15 +1,7 @@
 var http = require('http'),
     url = require('url'),
     qs = require('querystring'),
-    router = require('./router'),
-    requestHandler = require('./requestHandler'),
-    handle = {
-        "/": requestHandler.index,
-        "/client": requestHandler.client,
-        "/static": requestHandler.staticResource,
-        "/testcase/add": requestHandler.testcaseAdd,
-        "noroute": requestHandler.noRoute
-    };
+    router = require('./router');
 
 function start(port) {
     function onRequest(request, response) {
@@ -21,7 +13,7 @@ function start(port) {
             postData += dataChunk;
         });
         request.on('end', function() {
-            router.route(handle, pathname, request, response, qs.parse(postData));
+            router.route(pathname, request, response, qs.parse(postData));
         });
     }
     http.createServer(onRequest).listen(port);
