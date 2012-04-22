@@ -1,0 +1,28 @@
+{
+  "name": "mold",
+  "description": "Web Framework",
+  "version": "0.0.1",
+  "author": {
+    "name": "Kenneth Koontz",
+    "email": "kenneth.koontz@gmail.com"
+  },
+  "_npmUser": {
+    "name": "kenneth.koontz",
+    "email": "kenneth.koontz@gmail.com"
+  },
+  "_id": "mold@0.0.1",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  },
+  "_engineSupported": true,
+  "_npmVersion": "1.1.9",
+  "_nodeVersion": "v0.6.13",
+  "_defaultsLoaded": true,
+  "_from": "mold"
+}

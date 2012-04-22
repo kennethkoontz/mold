@@ -1,10 +1,7 @@
 var Actions = require('./actions'),
-    requestHandler = require('./requestHandler'),
-    handle = {
-        "/": requestHandler.index,
-        "/client": requestHandler.client,
-        "/testcase/add": requestHandler.testcaseAdd,
-    };
+    path = require('path'),
+    actions = require(path.join(process.cwd(), '/actions.js')),
+    routes = require(path.join(process.cwd(), '/routes.js'));
 
 /* Return a string representation that is the leaf of a path.
  *
@@ -38,8 +35,8 @@ function route(pathname, request, response, postData) {
     if (pathname.match('.js|.css')) {
         // pathname contains a js or css extension
         staticResource.call(new Actions.Action(request, response), resource);
-    } else if (typeof handle[pathname] === 'function' && pathname !== '/static') {
-        handle[pathname].call(new Actions.Action(request, response, postData));
+    } else if (typeof actions[routes[pathname]] === 'function' && pathname !== '/static') {
+        actions[routes[pathname]].call(new Actions.Action(request, response, postData));
     } else {
         noRoute(response, request);
     }
