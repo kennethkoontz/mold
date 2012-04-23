@@ -4,6 +4,7 @@ var fs =  require('fs'),
     path = require('path'),
     util = require('util'),
     cli = require('commander'),
+    colors = require('colors');
     installPrefix = (process.installPrefix === undefined) ? '/usr/local' : process.installPrefix;
 
 /* Utility function to make a specified directory.
@@ -13,7 +14,7 @@ var fs =  require('fs'),
  */
 function mkDir(path) {
     fs.mkdirSync(path);
-    console.log('[Created]: %s', path);
+    console.log('[Created] '.green + '%s', path);
 }
 
 /* Make the initial directories/files mold.
@@ -49,7 +50,7 @@ function makeMold(moldName) {
             is = fs.createReadStream(path.join(installPrefix, tmplDir, 'routes.js'));
             os = fs.createWriteStream(routesFile);
             util.pump(is, os);
-            console.log('[Created]: %s', routesFile);
+            console.log('[Created] '.green + '%s', routesFile);
         }
     });
 
@@ -63,7 +64,7 @@ function makeMold(moldName) {
             is = fs.createReadStream(path.join(installPrefix, tmplDir, 'actions.js'));
             os = fs.createWriteStream(actionsFile);
             util.pump(is, os);
-            console.log('[Created]: %s', actionsFile);
+            console.log('[Created] '.green + '%s', actionsFile);
         }
     });
    
@@ -77,7 +78,7 @@ function makeMold(moldName) {
             is = fs.createReadStream(path.join(installPrefix, tmplDir, 'views/index.html'));
             os = fs.createWriteStream(indexFile);
             util.pump(is, os);
-            console.log('[Created]: %s', indexFile);
+            console.log('[Created] '.green + '%s', indexFile);
         }
     });
 
@@ -103,7 +104,7 @@ cli .command('create [name]')
     .action( function(name) {
         var noNameMsg = 'Could not create Mold app, please specify an app name.';
         if (typeof name === "undefined") {
-            console.log(noNameMsg);
+            console.error('[Error] '.red + '%s', noNameMsg);
             process.exit(1);
         } else {
             makeMold(name);
