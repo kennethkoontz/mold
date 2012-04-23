@@ -16,15 +16,6 @@ function mkDir(path) {
     console.log('[Created]: %s', path);
 }
 
-/* Utility function to copy a template file from the template directory.
- *
- *
- * @param src {string} template file to copy.
- *
- */
-function cpTemplate(file) {
-}
-
 /* Make the initial directories/files mold.
  *
  * [moldName]/actions.js
