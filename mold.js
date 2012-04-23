@@ -91,15 +91,8 @@ function makeMold(moldName) {
  *
  */
 function startServer(env, port) {
-    var server = require('express').createServer();
-    console.log('Starting [%s] server on port: %s', env, port);
-    server.listen(port, function(err) {
-        if (err) {
-            throw err;
-        } else {
-            console.log('Server running on port: %s', port);
-        }
-    });
+    var server = require('./server');
+    server.start(port);
 }
 
 cli .version('0.0.1')
@@ -120,7 +113,7 @@ cli .command('create [name]')
     // mold startserver [env]
 cli .command('startserver [env]')
     .description('Start server with specified environment.')
-    .action( function(env) {
+    .action(function(env) {
         this.env = env;
         if (typeof this.env === "undefined") {
             // If no environment is specified we want to start the server with
