@@ -1,4 +1,4 @@
-### Install mold
+### Install mold (npm):
 Mold needs to be installed globally.
 
 ```
@@ -12,17 +12,17 @@ $ mold -h
 
 #### Create an empty mold:
 ```
-$ mold create [name]
+$ mold create [appname]
 ```
 
 This creates the following structure:
-/app/{static/, views/}
+/[appname]/{static/, views/}
 routes.js
 actions.js
 
 #### Start server:
-Starting up the server for your app. Change director into your app's directory.
+Starting up the server for your app. Change directory into [appname] directory.
 
 ```
-[app]$ mold startserver
+[appname]$ mold startserver
 ```
