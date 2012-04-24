@@ -1,5 +1,6 @@
 var Actions = require('./actions'),
     path = require('path'),
+    url = require('url'),
     actions = require(path.join(process.cwd(), '/actions.js')),
     routes = require(path.join(process.cwd(), '/routes.js'));
 
@@ -22,8 +23,15 @@ function noRoute(response, request) {
     response.end();
 }
 
-function staticResource(resource) {
-    this.render('./static/' + resource);
+function staticResource() {
+    var pathname = url.parse(this.request.url).pathname,
+        urlArray = pathname.split('/'),
+        leaf = urlArray[urlArray.length-1];
+        
+        urlArray.pop();
+    var pathToLeaf = urlArray.join('/');
+    console.log(path.join(pathToLeaf, leaf));
+    this.render(path.join(process.cwd(), pathToLeaf, leaf));
 }
 
 /* If incoming request is for a static file. Route to static.
@@ -34,7 +42,7 @@ function route(pathname, request, response, postData) {
     var resource = leafPath(pathname);
     if (pathname.match('.js|.css')) {
         // pathname contains a js or css extension
-        staticResource.call(new Actions.Action(request, response), resource);
+        staticResource.call(new Actions.Action(request, response));
     } else if (typeof actions[routes[pathname]] === 'function' && pathname !== '/static') {
         actions[routes[pathname]].call(new Actions.Action(request, response, postData));
     } else {
