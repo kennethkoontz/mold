@@ -30,7 +30,6 @@ function staticResource() {
         
         urlArray.pop();
     var pathToLeaf = urlArray.join('/');
-    console.log(path.join(pathToLeaf, leaf));
     this.render(path.join(process.cwd(), pathToLeaf, leaf));
 }
 
@@ -48,6 +47,7 @@ function route(pathname, request, response, postData) {
     } else {
         noRoute(response, request);
     }
+    console.info('[info] '.blue + '%s %s %s', request.method, response.statusCode, pathname);
 }
 
 exports.route = route;
