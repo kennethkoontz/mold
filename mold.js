@@ -4,7 +4,8 @@ var fs =  require('fs'),
     path = require('path'),
     util = require('util'),
     cli = require('commander'),
-    colors = require('colors');
+    colors = require('colors'),
+    spawn = require('child_process').spawn,
     installPrefix = (process.installPrefix === undefined) ? '/usr/local' : process.installPrefix;
 
 /* Utility function to make a specified directory.
@@ -84,17 +85,21 @@ function makeMold(moldName) {
 
 }
 
-/* Start the server with 'env' environment.
- *
- * @params: 
- * env - environment
- * port - port number to start server on.
- *
- */
-function startServer(env, port) {
-    var server = require('./server');
-    server.start(port);
+function startServer() {
+    var p = path.join(installPrefix, '/lib/node_modules/mold/start.js'); // path to start.js
+    start = spawn('node', [p]);
+    start.stdout.on('data', function(data) {
+        process.stdout.write(data+'\r');
+    });
+    start.stderr.on('data', function(data) {
+        process.stderr.write(data+'\r');
+    });
+    start.on('exit', function () {
+        process.stdout.write('[info] '.green + 'restarting server...\r');
+        startServer();
+    });
 }
+
 
 cli .version('0.0.1')
 
@@ -115,16 +120,7 @@ cli .command('create [name]')
 cli .command('startserver [env]')
     .description('Start server with specified environment.')
     .action(function(env) {
-        this.env = env;
-        if (typeof this.env === "undefined") {
-            // If no environment is specified we want to start the server with
-            // the development settings.
-            this.env = 'dev';
-            startServer(this.env, 8000);
-        } else {
-            // Else start with specified environment.
-            startServer(this.env, 8000);
-        }
+        startServer();
     });
 
 cli.parse(process.argv);
