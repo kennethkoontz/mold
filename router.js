@@ -30,7 +30,6 @@ function staticResource() {
         
         urlArray.pop();
     var pathToLeaf = urlArray.join('/');
-    console.log(path.join(pathToLeaf, leaf));
     this.render(path.join(process.cwd(), pathToLeaf, leaf));
 }
 
