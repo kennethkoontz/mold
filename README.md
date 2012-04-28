@@ -26,3 +26,5 @@ Starting up the server for your app. Change directory into [appname] directory.
 ```
 [appname]$ mold startserver
 ```
+
+Your server is running. Point your browser to http://localhost:8000.
