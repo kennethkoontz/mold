@@ -87,19 +87,60 @@ function makeMold(moldName) {
 
 function startServer() {
     var p = path.join(installPrefix, '/lib/node_modules/mold/start.js'); // path to start.js
-    start = spawn('node', [p]);
-    start.stdout.on('data', function(data) {
+    child = process['child'] = spawn('node', [p]);
+    child.stdout.on('data', function(data) {
         process.stdout.write(data+'\r');
     });
-    start.stderr.on('data', function(data) {
+    child.stderr.on('data', function(data) {
         process.stderr.write(data+'\r');
     });
-    start.on('exit', function () {
-        process.stdout.write('[info] '.green + 'restarting server...\r');
-        startServer();
+    child.on('exit', function (code, signal) {
+        console.log('[info] '.blue + 'restarting server...\r');
+        setTimeout(startServer(), 1000);
     });
-}
+};
 
+function inArray(element, array) {
+    for (i in array) {
+        if (array[i] === element) return true;
+    };
+    return false;
+};
+
+function startMonitor() {
+    var dirs = [],
+        files = [],
+        ignoredFiles = ['.swp'];
+        ignoredDirs = ['.git'];
+    
+    var recursiveWatch = function(filePath) {
+        fs.watch(filePath, function(event, filename) {
+            if (event === 'change' && !filename.match('.swp')) {
+                process['child'].kill();
+            }
+        });
+        fs.readdir(filePath, function(err, files) {
+            if (!err) {
+                files.forEach(function(file) {
+                    var pathname = path.join(filePath, file);
+                    fs.lstat(pathname, function(err, stats) {
+                        if (err) {
+                            throw err;
+                        } else {
+                            if (stats.isDirectory()) {
+                                recursiveWatch(pathname);
+                            }
+                        }
+                    });
+                });
+            } else {
+                throw err;
+            }
+        });
+    }
+    
+    recursiveWatch(process.cwd());
+};
 
 cli .version('0.0.1')
 
@@ -121,6 +162,7 @@ cli .command('startserver [env]')
     .description('Start server with specified environment.')
     .action(function(env) {
         startServer();
+        startMonitor();
     });
 
 cli.parse(process.argv);
