@@ -34,7 +34,7 @@ Action.prototype.render = function (filePath) {
         if (exists) {
             fs.readFile(filePath, function(err, content) {
                 if (!err) {
-                    var ext = filePath.match('.html|.js|.css')[0];
+                    var ext = filePath.match('\\.html|\\.js|\\.css')[0];
                     res.writeHead(200, {"Content-Type": "text/" + fileTypes[ext]});
                     res.write(content, 'utf-8');
                     res.end();
