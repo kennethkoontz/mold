@@ -9,7 +9,6 @@
   "preferGLobal": "true",
   "dependencies": {
     "commander": "0.5.2",
-    "colors": "0.6.0",
-    "walk": "*"
+    "colors": "0.6.0"
   }
 }
