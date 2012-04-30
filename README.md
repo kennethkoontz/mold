@@ -81,7 +81,7 @@ Notice that in the 'foobarAdd' function. The request and response objects are ma
 
 There are a few functions made available in each action that can assist with handling the logic:
 
-this.postData - Data from a post form.
-this.json(obj) - Takes an object and responds to the request with JSON.
-this.statusCode(code) - Takes a number, representing the status code, responds with a status code.
-this.render(pathToFile) - Take a string, that represents the relative path to a file, whose contents you want to respond with.
+* **this.postData** - Data from a post form.
+* **this.json(obj)** - Takes an object and responds to the request with JSON.
+* **this.statusCode(code)** - Takes a number, representing the status code, responds with a status code.
+* **this.render(pathToFile)** - Take a string, that represents the relative path to a file, whose contents you want to respond with.
