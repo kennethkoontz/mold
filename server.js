@@ -13,7 +13,7 @@ function start(port) {
             postData += dataChunk;
         });
         request.on('end', function() {
-            router.route(pathname, request, response, qs.parse(postData));
+            router.route(pathname, request, response, postData);
         });
     }
     http.createServer(onRequest).listen(port);
