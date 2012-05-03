@@ -85,9 +85,14 @@ function makeMold(moldName) {
 
 }
 
-function startServer() {
-    var p = path.join(installPrefix, '/lib/node_modules/mold/start.js'); // path to start.js
-    child = process['child'] = spawn('node', [p]);
+function startServer(port) {
+    var p = path.join(installPrefix, '/lib/node_modules/mold/start.js'), // path to start.js
+        port = (port === undefined) ? 8000 : port;
+    if (port < 1024 && process.getuid() !== 0) {
+        console.log('[error] '.red + 'Can\'t bind to a privileged port. Do you have root permissions?');
+        process.exit(1);
+    }
+    child = process['child'] = spawn('node', [p, port]);
     child.stdout.on('data', function(data) {
         process.stdout.write(data+'\r');
     });
@@ -96,7 +101,7 @@ function startServer() {
     });
     child.on('exit', function (code, signal) {
         console.log('[info] '.blue + 'restarting server...\r');
-        setTimeout(startServer(), 1000);
+        setTimeout(startServer(port), 1000);
     });
 };
 
@@ -142,7 +147,7 @@ function startMonitor() {
     recursiveWatch(process.cwd());
 };
 
-cli .version('0.0.1')
+cli .version('0.0.4')
 
     // mold create [name]
 cli .command('create [name]')
@@ -158,10 +163,10 @@ cli .command('create [name]')
     });
 
     // mold startserver [env]
-cli .command('startserver [env]')
-    .description('Start server with specified environment.')
-    .action(function(env) {
-        startServer();
+cli .command('startserver [port]')
+    .description('Start server with specified port. (default: 8000)')
+    .action(function(port) {
+        startServer(port);
         startMonitor();
     });
 

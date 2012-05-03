@@ -23,11 +23,12 @@ actions.js
 #### Start server:
 Starting up the server for your app. Change directory into [appname] directory.
 
+The following starts a server on [port]. The default port is 8000.
 ```
-[appname]$ mold startserver
+[appname]$ mold startserver [port]
 ```
 
-Your server is running. Point your browser to http://localhost:8000.
+Your server is running. Point your browser to http://localhost:[port].
 
 #### Routing requests to actions using the routes table
 
