@@ -66,13 +66,12 @@ var actions = module.exports = {
         var req = this.request,
             res = this.response;
         if (req === 'POST') {
-            res.writeHead(200, {'Content-Type': {"Access-Control-Allow-Origin": "*"}});
-            res.write(this.postData);
-            res.end()
+	    // Do something POSTY; like create a record in the db.
+	    // Then respond back to client.
+	    res.writeHead(200);
+	    res.end()
         } else {
-            res.writeHead(405);
-            res.write('405');
-            res.end();
+	    this.statusCode(405)
         }
     }
 };
