@@ -39,7 +39,7 @@ function staticResource() {
  */
 function route(pathname, request, response, postData) {
     var resource = leafPath(pathname);
-    if (pathname.match('\\.html|\\.js|\\.css|\\.png')) {
+    if (pathname.match('\\.html|\\.js|\\.css|\\.png|\\.jpg')) {
         // pathname contains a extension
         staticResource.call(new Actions.Action(request, response));
     } else if (typeof actions[routes[pathname]] === 'function' && pathname !== '/static') {
