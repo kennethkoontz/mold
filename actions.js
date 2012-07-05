@@ -8,6 +8,13 @@ function Action(request, response, postData) {
     this.postData = postData;
 }
 
+Action.prototype.redirect = function(url) {
+    this.response.writeHead(302, {
+          'Location': url
+    });
+    this.response.end();
+}
+
 Action.prototype.json = function (json) {
     this.response.writeHead(200, {"Content-Type": "application/json"});
     this.response.write(JSON.stringify(json));
@@ -34,8 +41,8 @@ Action.prototype.render = function (filePath) {
         if (exists) {
             fs.readFile(filePath, function(err, content) {
                 if (!err) {
-                    var ext = filePath.match('\\.html|\\.js|\\.css|\\.png')[0];
-                    if (ext === 'png') {
+                    var ext = filePath.match('\\.html|\\.js|\\.css|\\.png|\\.jpg')[0];
+                    if (ext === 'png' || ext === 'jpg') {
                         res.writeHead(200, {"Content-Type": "image/" + fileTypes[ext]});
                         res.write(content, 'binary');
                         res.end();
