@@ -20,7 +20,7 @@ Action.prototype.json = function (json) {
         json = JSON.stringify(json);
     }
     this.response.writeHead(200, {"Content-Type": "application/json"});
-    this.response.write(JSON.stringify(json));
+    this.response.write(json);
     this.response.end();
 }
 
