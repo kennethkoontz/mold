@@ -1,14 +1,22 @@
-{ "name": "mold",
+{
+  "name": "mold",
   "description": "Web Framework",
-  "version": "0.0.6",
-  "author": {
-    "name": "Kenneth Koontz",
-    "email": "kenneth.koontz@gmail.com"
+  "version": "0.0.7",
+  "author": "Kenneth Koontz <kenneth.koontz@gmail.com>",
+  "bin": {
+    "mold": "./mold.js"
   },
-  "bin": { "mold" : "./mold.js" },
   "preferGLobal": "true",
   "dependencies": {
     "commander": "0.5.2",
     "colors": "0.6.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
   }
 }
