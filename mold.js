@@ -119,7 +119,7 @@ function startMonitor() {
         ignoredDirs = ['.git'];
     
     var recursiveWatch = function(filePath) {
-        fs.watchFile(filePath, function(event, filename) {
+        fs.watch(filePath, function(event, filename) {
             if (event === 'change' && !filename.match('.swp')) {
                 process['child'].kill();
             }
