@@ -66,13 +66,12 @@ var actions = module.exports = {
         var req = this.request,
             res = this.response;
         if (req === 'POST') {
-	    // Do something POSTY; like create a record in the db.
-	    // Then respond back to client.
-	    res.writeHead(200);
-	    res.end()
+		// Do something POSTY; like create a record in the db.
+		// Then respond back to client.
+		res.writeHead(200);
+		res.end();
         } else {
-	    this.statusCode(405)
-        }
+        	this.statusCode(405);
     }
 };
 ```
