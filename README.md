@@ -72,6 +72,7 @@ var actions = module.exports = {
         	res.end();
         } else {
         	this.statusCode(405);
+        }
     }
 };
 ```
