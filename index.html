@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Mold : Web framework using node.js" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Mold</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/kennethkoontz/mold">View on GitHub</a>
+
+          <h1 id="project_title">Mold</h1>
+          <h2 id="project_tagline">Web framework using node.js</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/kennethkoontz/mold/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/kennethkoontz/mold/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>Install mold (npm):</h3>
+
+<p>Mold needs to be installed globally.</p>
+
+<pre><code>$ sudo npm install -g mold
+</code></pre>
+
+<h4>List mold's help:</h4>
+
+<pre><code>$ mold -h
+</code></pre>
+
+<h4>Create an empty mold:</h4>
+
+<pre><code>$ mold create [appname]
+</code></pre>
+
+<p>This creates the following structure:
+/[appname]/{static/, views/}
+routes.js
+actions.js</p>
+
+<h4>Start server:</h4>
+
+<p>Starting up the server for your app. Change directory into [appname] directory.</p>
+
+<p>The following starts a server on [port]. The default port is 8000.</p>
+
+<pre><code>[appname]$ mold startserver [port]
+</code></pre>
+
+<p>Your server is running. Point your browser to http://localhost:[port].</p>
+
+<h4>Routing requests to actions using the routes table</h4>
+
+<p>Mold maps http requests to actions. A request is routed by adding a property to routes.js; with the corresponding action being a property in actions.js.</p>
+
+<p>Mold's default routes table looks like the following:</p>
+
+<pre><code>var routes = module.exports = {
+    '/': 'index',
+};
+</code></pre>
+
+<p>This will route any request for '/', to the 'index' action function in actions.js.</p>
+
+<p>To map a route to an action. Simply define the url and action function. The following maps requests from '/' and '/foobar/add' to the 'index' and 'foobarAdd' function, respectively.</p>
+
+<pre><code>var routes = modules.exports = {
+    '/': 'index',
+    '/foobar/add': 'foobarAdd'
+};
+</code></pre>
+
+<h3>Routing static resources</h3>
+
+<p>Mold assumes your static resources reside under the static directory. All static resources such as, css, js, images, etc, should be put in this directory. </p>
+
+<h4>Defining action logic</h4>
+
+<p>Once you have a request mapped to an action, you can define the logic in the actions.js file.</p>
+
+<pre><code>var actions = module.exports = {
+    index: function () {
+        this.render('./views/index.html');
+    },
+    foobarAdd: function () {
+        var req = this.request,
+            res = this.response;
+        if (req === 'POST') {
+        // Do something POSTY; like create a record in the db.
+        // Then respond back to client.
+        res.writeHead(200);
+        res.end()
+        } else {
+        this.statusCode(405)
+        }
+    }
+};
+</code></pre>
+
+<p>Notice that in the 'foobarAdd' function. The request and response objects are made available through 'this'. This allows flexibility and provides each action access to node's request and response objects.</p>
+
+<p>There are a few functions made available in each action that can assist with handling the logic:</p>
+
+<ul>
+<li>
+<strong>this.postData</strong> - Data from a post form.</li>
+<li>
+<strong>this.json(obj)</strong> - Takes an object and responds to the request with JSON.</li>
+<li>
+<strong>this.statusCode(code)</strong> - Takes a number, representing the status code, responds with a status code.</li>
+<li>
+<strong>this.render(pathToFile)</strong> - Take a string, that represents the relative path to a file, whose contents you want to respond with.</li>
+<li>
+<strong>this.redirect(url)</strong> - Redirect to url.</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Mold maintained by <a href="https://github.com/kennethkoontz">kennethkoontz</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-31394402-1 ");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
