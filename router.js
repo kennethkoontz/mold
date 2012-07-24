@@ -42,8 +42,15 @@ function route(pathname, request, response, postData) {
     if (pathname.match('\\.html|\\.js|\\.css|\\.png|\\.jpg')) {
         // pathname contains a extension
         staticResource.call(new Actions.Action(request, response));
-    } else if (typeof actions[routes[pathname]] === 'function' && pathname !== '/static') {
-        actions[routes[pathname]].call(new Actions.Action(request, response, postData));
+    } else if (pathname !== '/static') {
+        routes.forEach(function(item) {
+            if (pathname === item[0]) {
+                console.log(actions[item[1]]);
+                actions[item[1]].call(new Actions.Action(request, response, postData));
+                console.log('in calling');
+            }
+            console.log(item, pathname);
+        });
     } else {
         noRoute(response, request);
     }
