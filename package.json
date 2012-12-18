@@ -1,15 +1,19 @@
 {
   "name": "mold",
   "description": "Web Framework",
-  "version": "0.0.7",
-  "author": "Kenneth Koontz <kenneth.koontz@gmail.com>",
+  "version": "0.0.8",
+  "author": {
+    "name": "Kenneth Koontz",
+    "email": "kenneth.koontz@gmail.com"
+  },
   "bin": {
     "mold": "./mold.js"
   },
   "preferGLobal": "true",
   "dependencies": {
     "commander": "0.5.2",
-    "colors": "0.6.0"
+    "colors": "0.6.0",
+    "mime": "1.2.7"
   },
   "scripts": {
     "start": "node server.js"
@@ -18,5 +22,11 @@
   "optionalDependencies": {},
   "engines": {
     "node": "*"
-  }
+  },
+  "readme": "### Install mold (npm):\nMold needs to be installed globally.\n\n```\n$ sudo npm install -g mold\n```\n\n#### List mold's help:\n```\n$ mold -h\n```\n\n#### Create an empty mold:\n```\n$ mold create [appname]\n```\n\nThis creates the following structure:\n/[appname]/{static/, views/}\nroutes.js\nactions.js\n\n#### Start server:\nStarting up the server for your app. Change directory into [appname] directory.\n\nThe following starts a server on [port]. The default port is 8000.\n```\n[appname]$ mold startserver [port]\n```\n\nYour server is running. Point your browser to http://localhost:[port].\n\n#### Routing requests to actions using the routes table\n\nMold maps http requests to actions. A request is routed by adding a property to routes.js; with the corresponding action being a property in actions.js.\n\n\nMold's default routes table looks like the following:\n```\nvar routes = module.exports = {\n    '/': 'index',\n};\n```\n\nThis will route any request for '/', to the 'index' action function in actions.js.\n\nTo map a route to an action. Simply define the url and action function. The following maps requests from '/' and '/foobar/add' to the 'index' and 'foobarAdd' function, respectively.\n```\nvar routes = modules.exports = {\n    '/': 'index',\n    '/foobar/add': 'foobarAdd'\n};\n```\n\n### Routing static resources\nMold assumes your static resources reside under the static directory. All static resources such as, css, js, images, etc, should be put in this directory. \n\n#### Defining action logic\nOnce you have a request mapped to an action, you can define the logic in the actions.js file.\n```\nvar actions = module.exports = {\n    index: function () {\n        this.render('./views/index.html');\n    },\n    foobarAdd: function () {\n        var req = this.request,\n            res = this.response;\n        if (req === 'POST') {\n\t    // Do something POSTY; like create a record in the db.\n\t    // Then respond back to client.\n\t    res.writeHead(200);\n\t    res.end()\n        } else {\n\t    this.statusCode(405)\n        }\n    }\n};\n```\n\nNotice that in the 'foobarAdd' function. The request and response objects are made available through 'this'. This allows flexibility and provides each action access to node's request and response objects.\n\nThere are a few functions made available in each action that can assist with handling the logic:\n\n* **this.postData** - Data from a post form.\n* **this.json(obj)** - Takes an object and responds to the request with JSON.\n* **this.statusCode(code)** - Takes a number, representing the status code, responds with a status code.\n* **this.render(pathToFile)** - Take a string, that represents the relative path to a file, whose contents you want to respond with.\n* **this.redirect(url)** - Redirect to url.\n",
+  "_id": "mold@0.0.7",
+  "dist": {
+    "shasum": "ec929ff56d5edf5ee2368f54f40e3712394e0978"
+  },
+  "_from": "mold"
 }

@@ -39,21 +39,14 @@ function staticResource() {
  */
 function route(pathname, request, response, postData) {
     var resource = leafPath(pathname);
+
     if (pathname.match('\\.html|\\.js|\\.css|\\.png|\\.jpg')) {
-        // pathname contains a extension
         staticResource.call(new Actions.Action(request, response));
-    } else if (pathname !== '/static') {
-        routes.forEach(function(item) {
-            if (pathname === item[0]) {
-                console.log(actions[item[1]]);
-                actions[item[1]].call(new Actions.Action(request, response, postData));
-                console.log('in calling');
-            }
-            console.log(item, pathname);
-        });
+    } else if (typeof actions[routes[pathname]] === 'function' && pathname !== '/static') {
+        actions[routes[pathname]].call(new Actions.Action(request, response, postData));
     } else {
         noRoute(response, request);
-    }
+    }   
     console.info('[info] '.blue + '%s %s %s', request.method, response.statusCode, pathname);
 }
 

@@ -1,6 +1,7 @@
-var path = require('path'),
-    qs = require('querystring'),
-    fs = require('fs');
+var path = require('path');
+var qs = require('querystring');
+var fs = require('fs');
+var mime = require('mime');
 
 function Action(request, response, postData) {
     this.request = request;
@@ -31,29 +32,19 @@ Action.prototype.statusCode = function (code) {
 }
 
 Action.prototype.render = function (filePath) {
-    var req = this.request,
-        res = this.response,
-        fileTypes = {
-            '.html': 'html',
-            '.js': 'javascript',
-            '.css': 'css',
-            '.png': 'png'
-        };
+    var req = this.request;
+    var res = this.response;
     
     path.exists(filePath, function(exists) {
         if (exists) {
+
             fs.readFile(filePath, function(err, content) {
+                var m = mime.lookup(filePath);
+                
                 if (!err) {
-                    var ext = filePath.match('\\.html|\\.js|\\.css|\\.png|\\.jpg')[0];
-                    if (ext === 'png' || ext === 'jpg') {
-                        res.writeHead(200, {"Content-Type": "image/" + fileTypes[ext]});
-                        res.write(content, 'binary');
-                        res.end();
-                    } else {
-                        res.writeHead(200, {"Content-Type": "text/" + fileTypes[ext]});
-                        res.write(content, 'utf-8');
-                        res.end();
-                    }
+                    res.writeHead(200, { 'Content-Type': m });
+                    res.write(content, mime.extension(m));
+                    res.end();
                 } else {
                     res.writeHead(500);
                     res.write('500', 'utf-8');
