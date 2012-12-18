@@ -147,7 +147,8 @@ function startMonitor() {
     recursiveWatch(process.cwd());
 };
 
-cli .version('0.0.4')
+cli .version('0.0.8')
+cli .option('-w, --watch', 'recursively watch file changes')
 
     // mold create [name]
 cli .command('create [name]')
@@ -162,12 +163,14 @@ cli .command('create [name]')
         }
     });
 
-    // mold startserver [env]
+    // mold startserver [port]
 cli .command('startserver [port]')
     .description('Start server with specified port. (default: 8000)')
     .action(function(port) {
         startServer(port);
-        startMonitor();
+
+        // Start monitor if flag.
+        if (cli.watch) { startMonitor(); }
     });
 
 cli.parse(process.argv);
