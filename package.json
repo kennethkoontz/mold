@@ -1,7 +1,7 @@
 {
   "name": "mold",
   "description": "Web Framework",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "author": {
     "name": "Kenneth Koontz",
     "email": "kenneth.koontz@gmail.com"

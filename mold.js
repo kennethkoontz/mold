@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 
-var fs =  require('fs'),
-    path = require('path'),
-    util = require('util'),
-    cli = require('commander'),
-    colors = require('colors'),
-    spawn = require('child_process').spawn,
-    installPrefix = (process.installPrefix === undefined) ? '/usr/local' : process.installPrefix;
+var fs =  require('fs');
+var path = require('path');
+var util = require('util');
+var cli = require('commander');
+var colors = require('colors');
+var spawn = require('child_process').spawn;
+var installPrefix = (process.installPrefix === undefined) ? '/usr/local' : process.installPrefix;
+var moldInstallPath = path.join(installPrefix, '/lib/node_modules/mold');
+var mold = JSON.parse(fs.readFileSync(path.join(moldInstallPath, '/package.json'), 'utf8'));
 
 /* Utility function to make a specified directory.
  *
@@ -147,7 +149,7 @@ function startMonitor() {
     recursiveWatch(process.cwd());
 };
 
-cli .version('0.0.8')
+cli .version(mold.version)
 cli .option('-w, --watch', 'recursively watch file changes')
 
     // mold create [name]
