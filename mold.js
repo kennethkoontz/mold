@@ -6,7 +6,7 @@ var util = require('util');
 var cli = require('commander');
 var colors = require('colors');
 var spawn = require('child_process').spawn;
-var installPrefix = (process.installPrefix === undefined) ? process.env._.split('/bin/node')[0] : process.installPrefix;
+var installPrefix = process.env._.split('/bin')[0];
 var moldInstallPath = path.join(installPrefix, '/lib/node_modules/mold');
 var mold = JSON.parse(fs.readFileSync(path.join(moldInstallPath, '/package.json'), 'utf8'));
 
