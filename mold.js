@@ -1,14 +1,32 @@
 #!/usr/bin/env node
 
-var fs =  require('fs');
-var path = require('path');
-var util = require('util');
-var cli = require('commander');
-var colors = require('colors');
-var spawn = require('child_process').spawn;
-var installPrefix = process.env._.split('/bin')[0];
-var moldInstallPath = path.join(installPrefix, '/lib/node_modules/mold');
-var mold = JSON.parse(fs.readFileSync(path.join(moldInstallPath, '/package.json'), 'utf8'));
+fs =  require('fs');
+path = require('path');
+util = require('util');
+cli = require('commander');
+colors = require('colors');
+spawn = require('child_process').spawn;
+
+function doesFileExist(filename) {
+    try {
+        return fs.statSync(filename);
+    } catch (e) {
+        return false;
+    }
+}
+
+// Find the node installation directory
+if (process.env._ !== undefined)
+    installPrefix = process.env._.split('/bin')[0]
+else if (doesFileExist('/usr/local/bin/node'))
+    installPrefix = '/usr/local'
+else if (doesFileExist('/usr/bin/node'))
+    installPrefix = '/usr/'
+else
+    throw new Error('could not find your node installation directory');
+
+moldInstallPath = path.join(installPrefix, '/lib/node_modules/mold');
+mold = JSON.parse(fs.readFileSync(path.join(moldInstallPath, '/package.json'), 'utf8'));
 
 /* Utility function to make a specified directory.
  *
